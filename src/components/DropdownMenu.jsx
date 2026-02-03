@@ -7,7 +7,6 @@ export default function DropdownMenu({ value = "All", onChange }) {
 
   const options = ["All", "Assignments", "Live Sessions", "Quiz"];
 
- 
   useEffect(() => {
     const handler = (e) => {
       if (boxRef.current && !boxRef.current.contains(e.target)) {

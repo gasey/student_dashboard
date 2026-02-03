@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/liveSessionDetail.css";
 
 export default function LiveSessionDetail() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="liveSessionDetailPage">
       <div className="liveSessionDetailBox">

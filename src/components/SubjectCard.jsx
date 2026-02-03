@@ -1,4 +1,3 @@
-
 import "../styles/subjectCard.css";
 
 export default function SubjectCard({ img, subject, teacher, onClick }) {

@@ -15,11 +15,7 @@ import RecordingDetail from "./pages/RecordingDetail";
 import SubjectsStudyMaterial from "./pages/SubjectsStudyMaterial";
 import StudyMaterialList from "./pages/StudyMaterialList";
 import AssignmentDetail from "./pages/AssignmentDetail";
-<<<<<<< HEAD
 import LiveSessionDetail from "./pages/LiveSessionDetail";
-
-=======
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
 
 import LiveSessions from "./pages/LiveSessions";
 import Quiz from "./pages/Quiz";
@@ -43,12 +39,11 @@ export default function App() {
           <Route path="subjects/recordings/:id" element={<RecordingsList />} />
           <Route path="subjects/recordings/:id/video/:videoId" element={<RecordingDetail />} />
           <Route path="subjects/study-material" element={<SubjectsStudyMaterial />} />
+
+
           <Route path="subjects/study-material/:id" element={<StudyMaterialList />} />
-<<<<<<< HEAD
           <Route path="live-sessions/detail" element={<LiveSessionDetail />} />
 
-=======
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
 
           <Route path="live-sessions" element={<LiveSessions />} />
           <Route path="quiz" element={<Quiz />} />

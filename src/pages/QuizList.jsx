@@ -59,22 +59,14 @@ export default function QuizList() {
       img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600",
       title: "Asgn./Quiz - X",
       teacher: "Teacher Name",
-<<<<<<< HEAD
       deadline: "Date & Time (Deadline)",
-=======
-      deadline: "Completed: 20 Jan 2026",
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
     },
     {
       id: 102,
       img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600",
       title: "Asgn./Quiz - X",
       teacher: "Teacher Name",
-<<<<<<< HEAD
       deadline: "Date & Time (Deadline)",
-=======
-      deadline: "Completed: 18 Jan 2026",
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
     },
   ];
 
@@ -90,8 +82,7 @@ export default function QuizList() {
 
   return (
     <div className="quizListPage">
-<<<<<<< HEAD
-      {/* Back button in grey header area */}
+      {/* Back button in grey header area (like screenshot) */}
       <button className="quizBackHeader" onClick={() => navigate(-1)}>
         &lt; Back
       </button>
@@ -105,40 +96,18 @@ export default function QuizList() {
           <div className="quizTabs">
             <button
               className={`quizTab ${activeTab === "pending" ? "quizTabActive" : ""}`}
-=======
-      <div className="quizListBox">
-        {/* Back Button */}
-        <button className="quizListBack" onClick={() => navigate(-1)}>
-          &lt; Back
-        </button>
-
-        {/* Subject Title */}
-        <h2 className="quizListTitle">Subject Name</h2>
-
-        {/* Tabs and Search */}
-        <div className="quizListHeader">
-          <div className="quizListTabs">
-            <button
-              className={`quizListTab ${activeTab === "pending" ? "quizListTab--active" : ""}`}
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
               onClick={() => setActiveTab("pending")}
             >
               Pending
             </button>
-<<<<<<< HEAD
 
             <button
               className={`quizTab ${activeTab === "completed" ? "quizTabActive" : ""}`}
-=======
-            <button
-              className={`quizListTab ${activeTab === "completed" ? "quizListTab--active" : ""}`}
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
               onClick={() => setActiveTab("completed")}
             >
               Completed
             </button>
           </div>
-<<<<<<< HEAD
 
           <div className="quizSearch">
             <input placeholder="Search..." />
@@ -150,22 +119,6 @@ export default function QuizList() {
         <div className="quizGrid">
           {quizzes.map((quiz) => (
             <QuizCard key={quiz.id} {...quiz} onClick={() => handleQuizClick(quiz)} />
-=======
-          <div className="quizListSearch">
-            <input placeholder="Search..." />
-            <span className="quizListSearchIcon">🔍</span>
-          </div>
-        </div>
-
-        {/* Quiz Grid */}
-        <div className="quizListGrid">
-          {quizzes.map((quiz) => (
-            <QuizCard
-              key={quiz.id}
-              {...quiz}
-              onClick={() => handleQuizClick(quiz)}
-            />
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
           ))}
         </div>
       </div>

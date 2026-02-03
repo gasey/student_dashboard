@@ -18,8 +18,7 @@ export default function AssignmentPendingCard({ id, img, title, teacher, deadlin
       </div>
     </div>
   );
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 915fef792b7169a0c634dca13309c00526be6516
+
+
