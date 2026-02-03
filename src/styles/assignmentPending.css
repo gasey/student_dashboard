@@ -1,0 +1,253 @@
+/* Assignment Page */
+.assignmentPage {
+  width: 100%;
+  background: #ecf0ef;
+  min-height: 100%;
+}
+
+.assignmentBox {
+  width: 100%;
+  background: white;
+  border-radius: 18px;
+  padding: 20px 24px;
+  min-height: 82vh;
+}
+
+/* Back Button */
+.assignmentBack {
+  background: #0a808a;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.assignmentBack:hover {
+  background: #097a83;
+}
+
+/* Subject Title */
+.assignmentSubjectTitle {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Header with Tabs and Search */
+.assignmentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Tabs */
+.assignmentTabs {
+  display: flex;
+  gap: 0;
+}
+
+.assignmentTab {
+  background: #f2f2f2;
+  border: none;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.assignmentTab:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.assignmentTab:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.assignmentTab--active {
+  background: white;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.assignmentTab:hover:not(.assignmentTab--active) {
+  background: #e8e8e8;
+}
+
+/* Search */
+.assignmentSearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 200px;
+}
+
+.assignmentSearch input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 12px;
+}
+
+.assignmentSearchIcon {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* Assignment Cards Grid */
+.assignmentGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 1200px) {
+  .assignmentGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .assignmentGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .assignmentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Assignment Pending Card */
+.assignmentPendingCard {
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.assignmentPendingCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.assignmentPendingCard__img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.assignmentPendingCard__info {
+  background: #0a808a;
+  padding: 12px 14px;
+  color: white;
+}
+
+.assignmentPendingCard__title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.assignmentPendingCard__teacher {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.assignmentPendingCard__deadline {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Empty State */
+.assignmentEmpty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  padding: 40px;
+}
+
+/* Assignment Completed Card */
+.assignmentCompletedCard {
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.assignmentCompletedCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.assignmentCompletedCard__imgWrap {
+  position: relative;
+}
+
+.assignmentCompletedCard__img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.assignmentCompletedCard__badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #28a745;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.assignmentCompletedCard__info {
+  background: #2a9d8f;
+  padding: 12px 14px;
+  color: white;
+}
+
+.assignmentCompletedCard__title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.assignmentCompletedCard__teacher {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.9;
+  margin-bottom: 4px;
+}
+
+.assignmentCompletedCard__date {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.8;
+}

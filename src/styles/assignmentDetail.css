@@ -1,0 +1,171 @@
+/* Assignment Detail Page */
+.assignmentDetailPage {
+  width: 100%;
+  background: #ecf0ef;
+  min-height: 100%;
+}
+
+.assignmentDetailBox {
+  width: 100%;
+  background: white;
+  border-radius: 18px;
+  padding: 20px 24px;
+  min-height: 82vh;
+}
+
+/* Header with Subject and Search */
+.assignmentDetailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.assignmentDetailSubject {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+/* Assignment Content Container */
+.assignmentDetailContent {
+  display: flex;
+  gap: 24px;
+  background: #fafafa;
+  border-radius: 24px 24px 0 0;
+  padding: 24px;
+  min-height: 60vh;
+}
+
+/* Left Section */
+.assignmentDetailLeft {
+  flex: 1;
+}
+
+.assignmentDetailTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.assignmentDetailMeta {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.assignmentDetailDue {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.assignmentDetailDivider {
+  height: 1px;
+  background: #ddd;
+  margin: 16px 0;
+}
+
+.assignmentDetailLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.assignmentDetailDesc {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+/* Attached File */
+.assignmentDetailFile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.assignmentDetailFileIcon {
+  width: 40px;
+  height: 40px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.assignmentDetailFileName {
+  font-size: 13px;
+  color: #333;
+}
+
+/* Right Section - Your Work */
+.assignmentDetailRight {
+  width: 200px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  height: fit-content;
+}
+
+.assignmentDetailWorkTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.assignmentDetailUploadBtn {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: white;
+  border: 1px dashed #999;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.assignmentDetailUploadBtn:hover {
+  border-color: #0a808a;
+  color: #0a808a;
+}
+
+.assignmentDetailUploadedFile {
+  font-size: 11px;
+  color: #0a808a;
+  text-align: center;
+  margin-bottom: 12px;
+  word-break: break-all;
+}
+
+.assignmentDetailSubmitBtn {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: #0a808a;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.assignmentDetailSubmitBtn:hover {
+  background: #097a83;
+}
