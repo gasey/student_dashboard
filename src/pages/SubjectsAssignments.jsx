@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AssignmentPendingCard from "../components/AssignmentPendingCard";
 import AssignmentCompletedCard from "../components/AssignmentCompletedCard";
@@ -8,7 +8,13 @@ export default function SubjectsAssignments() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("pending");
 
-  const pendingData = [
+  // State for data (future backend data)
+  const [pendingData, setPendingData] = useState([]);
+  const [completedData, setCompletedData] = useState([]);
+
+  // Mock data (simulates backend response)
+  useEffect(() => {
+    const mockPendingData = [
     {
       id: 1,
       img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
@@ -60,38 +66,60 @@ export default function SubjectsAssignments() {
     },
   ];
 
-  const completedData = [
-    {
-      img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      completedDate: "Date & Time (Completed)",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      completedDate: "Date & Time (Completed)",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      completedDate: "Date & Time (Completed)",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      completedDate: "Date & Time (Completed)",
-    },
-    {
-      img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      completedDate: "Date & Time (Completed)",
-    },
-  ];
+    const mockCompletedData = [
+      {
+        id: 1,
+        img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        completedDate: "Date & Time (Completed)",
+      },
+      {
+        id: 2,
+        img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        completedDate: "Date & Time (Completed)",
+      },
+      {
+        id: 3,
+        img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        completedDate: "Date & Time (Completed)",
+      },
+      {
+        id: 4,
+        img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        completedDate: "Date & Time (Completed)",
+      },
+      {
+        id: 5,
+        img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        completedDate: "Date & Time (Completed)",
+      },
+    ];
+
+/*   // example for backend //
+
+  useEffect(() => {
+  fetch("/api/subjects-assignments")
+    .then((res) => res.json())
+    .then((data) => {
+      setPendingData(data.pending);
+      setCompletedData(data.completed);
+    });
+}, []);
+
+*/
+
+    setPendingData(mockPendingData);
+    setCompletedData(mockCompletedData);
+  }, []);
 
   return (
     <div className="assignmentPage">
@@ -134,8 +162,8 @@ export default function SubjectsAssignments() {
               <AssignmentPendingCard key={item.id} {...item} />
             ))}
           {activeTab === "completed" &&
-            completedData.map((item, idx) => (
-              <AssignmentCompletedCard key={idx} {...item} />
+            completedData.map((item) => (
+              <AssignmentCompletedCard key={item.id} {...item} />
             ))}
         </div>
       </div>

@@ -1,16 +1,35 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/studyMaterial.css";
 
 export default function StudyMaterialList() {
   const navigate = useNavigate();
 
-  const chaptersData = [
-    { id: 1, name: "Chapter 1", date: "21/01/26", fileUrl: "#" },
-    { id: 2, name: "Chapter 2", date: "22/01/26", fileUrl: "#" },
-    { id: 3, name: "Chapter 3", date: "23/01/26", fileUrl: "#" },
-    { id: 4, name: "Chapter 4", date: "26/01/26", fileUrl: "#" },
-    { id: 5, name: "Chapter 5", date: "26/01/26", fileUrl: "#" },
-  ];
+  // State for data (future backend data)
+  const [chaptersData, setChaptersData] = useState([]);
+
+  // Mock data (simulates backend response)
+  useEffect(() => {
+    const mockChaptersData = [
+      { id: 1, name: "Chapter 1", date: "21/01/26", fileUrl: "#" },
+      { id: 2, name: "Chapter 2", date: "22/01/26", fileUrl: "#" },
+      { id: 3, name: "Chapter 3", date: "23/01/26", fileUrl: "#" },
+      { id: 4, name: "Chapter 4", date: "26/01/26", fileUrl: "#" },
+      { id: 5, name: "Chapter 5", date: "26/01/26", fileUrl: "#" },
+    ];
+
+{/*   // example for backend //
+
+  useEffect(() => {
+  fetch("/api/study-materials")
+    .then((res) => res.json())
+    .then((data) => setChaptersData(data));
+}, []);
+
+*/}
+
+    setChaptersData(mockChaptersData);
+  }, []);
 
   const handleView = (chapter) => {
     // Open file in new tab for viewing

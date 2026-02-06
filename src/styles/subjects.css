@@ -4,7 +4,7 @@
 
 .subjectsBox {
   width: 100%;
-  background: white;
+  background: #ffffff;
   border-radius: 18px;
   padding: 20px;
   min-height: 82vh;
@@ -21,6 +21,7 @@
 .subjectsTitle {
   font-size: 14px;
   font-weight: 800;
+  color: #111;
 }
 
 /* Search like figma */
@@ -40,6 +41,16 @@
   background: transparent;
   flex: 1;
   font-size: 12px;
+  color: #333;
+}
+
+.subjectsSearch input::placeholder {
+  color: #888;
+}
+
+/* optional focus polish */
+.subjectsSearch:focus-within {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
 }
 
 .subjectsSearchIcon {
@@ -52,5 +63,18 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 18px;
-  justify-items: start;
+  align-items: stretch;
+}
+
+/* ✅ small-screen polish */
+@media (max-width: 600px) {
+  .subjectsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .subjectsSearch {
+    width: 100%;
+  }
 }

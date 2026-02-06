@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import QuizCard from "../components/QuizCard";
 import "../styles/quiz.css";
@@ -8,7 +8,13 @@ export default function QuizList() {
   const { subjectId } = useParams();
   const [activeTab, setActiveTab] = useState("pending");
 
-  const pendingQuizzes = [
+  // State for data (future backend data)
+  const [pendingQuizzes, setPendingQuizzes] = useState([]);
+  const [completedQuizzes, setCompletedQuizzes] = useState([]);
+
+  // Mock data (simulates backend response)
+  useEffect(() => {
+    const mockPendingQuizzes = [
     {
       id: 1,
       img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600",
@@ -53,22 +59,26 @@ export default function QuizList() {
     },
   ];
 
-  const completedQuizzes = [
-    {
-      id: 101,
-      img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 102,
-      img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-  ];
+    const mockCompletedQuizzes = [
+      {
+        id: 101,
+        img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        deadline: "Date & Time (Deadline)",
+      },
+      {
+        id: 102,
+        img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600",
+        title: "Asgn./Quiz - X",
+        teacher: "Teacher Name",
+        deadline: "Date & Time (Deadline)",
+      },
+    ];
+
+    setPendingQuizzes(mockPendingQuizzes);
+    setCompletedQuizzes(mockCompletedQuizzes);
+  }, []);
 
   const quizzes = activeTab === "pending" ? pendingQuizzes : completedQuizzes;
 
@@ -79,6 +89,7 @@ export default function QuizList() {
       navigate(`/subjects/quiz/${subjectId}/result/${quiz.id}`);
     }
   };
+
 
   return (
     <div className="quizListPage">

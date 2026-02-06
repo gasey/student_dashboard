@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import RecordingCard from "../components/RecordingCard";
 import "../styles/recordings.css";
@@ -6,7 +7,12 @@ export default function RecordingsList() {
   const navigate = useNavigate();
   const { id: subjectId } = useParams();
 
-  const recordingsData = [
+  // State for data (future backend data)
+  const [recordingsData, setRecordingsData] = useState([]);
+
+  // Mock data (simulates backend response)
+  useEffect(() => {
+    const mockRecordingsData = [
     {
       id: 1,
       img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
@@ -72,6 +78,9 @@ export default function RecordingsList() {
       sessionDate: "Date & Time (Session date)",
     },
   ];
+
+    setRecordingsData(mockRecordingsData);
+  }, []);
 
   return (
     <div className="recordingsPage">
