@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StudentLayout from "./layout/StudentLayout";
 
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
 import Subjects from "./pages/Subjects";
 import SubjectDetails from "./pages/SubjectDetails";
 import SubjectsAssignments from "./pages/SubjectsAssignments";
@@ -26,6 +28,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<StudentLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="change-password" element={<ChangePassword />} />
 
           <Route path="subjects" element={<Subjects />} />
           <Route path="subjects/:id" element={<SubjectDetails />} />

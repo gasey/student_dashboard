@@ -22,9 +22,13 @@
 }
 
 .dd__arrow {
-  font-weight: 900;
-  font-size: 12px;
-  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.dd__arrow--up {
+  transform: rotate(180deg);
 }
 
 .dd__menu {

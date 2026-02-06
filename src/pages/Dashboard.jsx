@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SessionCard from "../components/SessionCard";
 import AssignmentCard from "../components/AssignmentCard";
 import NotificationCard from "../components/NotificationCard";
@@ -7,19 +7,14 @@ import "../styles/dashboard.css";
 
 export default function Dashboard() {
   const [showAllSessions, setShowAllSessions] = useState(false);
+  const [showAssignments, setShowAssignments] = useState(true);
+  const [showQuizzes, setShowQuizzes] = useState(true);
   const [notificationFilter, setNotificationFilter] = useState("All");
   const [scheduleFilter, setScheduleFilter] = useState("All");
-
-  // State for data (future backend data)
-  const [sessions, setSessions] = useState([]);
-  const [assignments, setAssignments] = useState([]);
-  const [quizzes, setQuizzes] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-  const [schedule, setSchedule] = useState([]);
-
+  
  // --- CALENDAR LOGIC STATE ---
-  const today = new Date();
-  const [currMonth, setCurrMonth] = useState(today.getMonth());
+  const today = new Date(); 
+  const [currMonth, setCurrMonth] = useState(today.getMonth()); 
   const [currYear, setCurrYear] = useState(today.getFullYear());
 
   const months = [
@@ -54,162 +49,138 @@ export default function Dashboard() {
     }
   };
 
-  // Mock data (simulates backend response)
-  useEffect(() => {
-    const mockSessions = [
-      {
-        img: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?w=400",
-        subject: "Subject Name",
-        topic: "Session Title/Topic",
-        teacher: "Teacher Name",
-        dateTime: "Session date",
-      },
-      {
-        img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=400",
-        subject: "Subject Name",
-        topic: "Session Title/Topic",
-        teacher: "Teacher Name",
-        dateTime: "Session date",
-      },
-      {
-        img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400",
-        subject: "Subject Name",
-        topic: "Session Title/Topic",
-        teacher: "Teacher Name",
-        dateTime: "Session date",
-      },
-      {
-        img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400",
-        subject: "Subject Name",
-        topic: "Session Title/Topic",
-        teacher: "Teacher Name",
-        dateTime: "Session date",
-      },
-      {
-        img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400",
-        subject: "Subject Name",
-        topic: "Session Title/Topic",
-        teacher: "Teacher Name",
-        dateTime: "Session date",
-      },
-      {
-        img: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?w=400",
-        subject: "Subject Name",
-        topic: "Session Title/Topic",
-        teacher: "Teacher Name",
-        dateTime: "Session date",
-      },
-    ];
 
-    const mockAssignments = [
-      { title: "Mathematics chapter 1 algebra", teacher: "Sir Zothana", due: "23/01/2026 (Fri)" },
-      { title: "English chapter 1 Poem", teacher: "Miss Ruaifeli", due: "02/02/2026 (Tue)" },
-      { title: "English chapter 1 Poem", teacher: "Miss Ruaifeli", due: "02/02/2026 (Tue)" },
-    ];
-
-    const mockQuizzes = [
-      { title: "Science chapter 1 Biology", teacher: "Miss Ruaifeli", due: "23/01/2026 (Friday)" },
-      { title: "Science chapter 1 Biology", teacher: "Miss Ruaifeli", due: "23/01/2026 (Friday)" },
-    ];
-
-    const mockNotifications = [
-      {
-        title: "New Assignment updated",
-        subject: "Mathematics chapter 1 algebra",
-        teacher: "Teacher: Sir Zothana",
-        time: "Due Date: 23/01/2026 (Fri)",
-        type: "Assignments",
-      },
-      {
-        title: "New Live Session date updated",
-        subject: "Mathematics chapter 1 algebra",
-        teacher: "Teacher: Sir Zothana",
-        time: "Time: 1:00pm to 2:00pm",
-        type: "Live Sessions",
-      },
-      {
-        title: "New Quiz updated",
-        subject: "Science chapter 1 Biology",
-        teacher: "Teacher: Miss Ruaifeli",
-        time: "Time: 1:00pm to 2:00pm",
-        type: "Quiz",
-      },
-      {
-        title: "New Assignment updated",
-        subject: "Mathematics chapter 1 algebra",
-        teacher: "Teacher: Sir Zothana",
-        time: "Due Date: 23/01/2026 (Fri)",
-        type: "Assignments",
-      },
-    ];
-
-    const mockSchedule = [
-      {
-        date: "21/01/2026 (Wed)",
-        title: "Live Session",
-        subject: "Mathematics chapter 1 algebra",
-        teacher: "Teacher: Sir Zothana",
-        time: "Time: 3:00pm to 4:00pm",
-        type: "Live Sessions",
-      },
-      {
-        date: "21/01/2026 (Wed)",
-        title: "Due Assignments",
-        subject: "Mathematics chapter 1 algebra",
-        teacher: "Teacher: Sir Zothana",
-        time: "Due Date: 23/01/2026",
-        type: "Assignments",
-      },
-      {
-        date: "21/01/2026 (Wed)",
-        title: "Quiz",
-        subject: "Science chapter 1 Chemistry",
-        teacher: "Teacher: Miss Ruaifeli",
-        time: "Time: 10:00am to 12:00pm",
-        type: "Quiz",
-      },
-      {
-        date: "23/01/2026 (Fri)",
-        title: "Due Assignments",
-        subject: "Mathematics chapter 1 algebra",
-        teacher: "Teacher: Sir Zothana",
-        time: "Due Date: 23/01/2026",
-        type: "Assignments",
-      },
-      {
-        date: "29/01/2026 (Thu)",
-        title: "Live Session",
-        subject: "Science chapter 1 Biology",
-        teacher: "Teacher: Sir Zothana",
-        time: "Time: 2:00pm to 3:00pm",
-        type: "Live Sessions",
-      },
-    ];
-
-{/*   // example for backend //
-
-  useEffect(() => {
-  fetch("/api/dashboard")
-    .then((res) => res.json())
-    .then((data) => {
-      setSessions(data.sessions);
-      setAssignments(data.assignments);
-      setQuizzes(data.quizzes);
-      setNotifications(data.notifications);
-      setSchedule(data.schedule);
-    });
-}, []);
-
-*/}
-
-    setSessions(mockSessions);
-    setAssignments(mockAssignments);
-    setQuizzes(mockQuizzes);
-    setNotifications(mockNotifications);
-    setSchedule(mockSchedule);
-  }, []);
+  const sessions = [
+    {
+      img: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?w=400",
+      subject: "Subject Name",
+      topic: "Session Title/Topic",
+      teacher: "Teacher Name",
+      dateTime: "Session date",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=400",
+      subject: "Subject Name",
+      topic: "Session Title/Topic",
+      teacher: "Teacher Name",
+      dateTime: "Session date",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400",
+      subject: "Subject Name",
+      topic: "Session Title/Topic",
+      teacher: "Teacher Name",
+      dateTime: "Session date",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400",
+      subject: "Subject Name",
+      topic: "Session Title/Topic",
+      teacher: "Teacher Name",
+      dateTime: "Session date",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400",
+      subject: "Subject Name",
+      topic: "Session Title/Topic",
+      teacher: "Teacher Name",
+      dateTime: "Session date",
+    },
+    {
+      img: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?w=400",
+      subject: "Subject Name",
+      topic: "Session Title/Topic",
+      teacher: "Teacher Name",
+      dateTime: "Session date",
+    },
+  ];
 
   const collapsedSessions = sessions.slice(0, 3);
+
+  const assignments = [
+    { title: "Mathematics chapter 1 algebra", teacher: "Sir Zothana", due: "23/01/2026 (Fri)" },
+    { title: "English chapter 1 Poem", teacher: "Miss Ruaifeli", due: "02/02/2026 (Tue)" },
+    { title: "English chapter 1 Poem", teacher: "Miss Ruaifeli", due: "02/02/2026 (Tue)" },
+  ];
+
+  const quizzes = [
+    { title: "Science chapter 1 Biology", teacher: "Miss Ruaifeli", due: "23/01/2026 (Friday)" },
+    { title: "Science chapter 1 Biology", teacher: "Miss Ruaifeli", due: "23/01/2026 (Friday)" },
+  ];
+
+  const notifications = [
+    {
+      title: "New Assignment updated",
+      subject: "Mathematics chapter 1 algebra",
+      teacher: "Teacher: Sir Zothana",
+      time: "Due Date: 23/01/2026 (Fri)",
+      type: "Assignments",
+    },
+    {
+      title: "New Live Session date updated",
+      subject: "Mathematics chapter 1 algebra",
+      teacher: "Teacher: Sir Zothana",
+      time: "Time: 1:00pm to 2:00pm",
+      type: "Live Sessions",
+    },
+    {
+      title: "New Quiz updated",
+      subject: "Science chapter 1 Biology",
+      teacher: "Teacher: Miss Ruaifeli",
+      time: "Time: 1:00pm to 2:00pm",
+      type: "Quiz",
+    },
+    {
+      title: "New Assignment updated",
+      subject: "Mathematics chapter 1 algebra",
+      teacher: "Teacher: Sir Zothana",
+      time: "Due Date: 23/01/2026 (Fri)",
+      type: "Assignments",
+    },
+  ];
+
+  const schedule = [
+    {
+      date: "21/01/2026 (Wed)",
+      title: "Live Session",
+      subject: "Mathematics chapter 1 algebra",
+      teacher: "Teacher: Sir Zothana",
+      time: "Time: 3:00pm to 4:00pm",
+      type: "Live Sessions",
+    },
+    {
+      date: "21/01/2026 (Wed)",
+      title: "Due Assignments",
+      subject: "Mathematics chapter 1 algebra",
+      teacher: "Teacher: Sir Zothana",
+      time: "Due Date: 23/01/2026",
+      type: "Assignments",
+    },
+    {
+      date: "21/01/2026 (Wed)",
+      title: "Quiz",
+      subject: "Science chapter 1 Chemistry",
+      teacher: "Teacher: Miss Ruaifeli",
+      time: "Time: 10:00am to 12:00pm",
+      type: "Quiz",
+    },
+    {
+      date: "23/01/2026 (Fri)",
+      title: "Due Assignments",
+      subject: "Mathematics chapter 1 algebra",
+      teacher: "Teacher: Sir Zothana",
+      time: "Due Date: 23/01/2026",
+      type: "Assignments",
+    },
+    {
+      date: "29/01/2026 (Thu)",
+      title: "Live Session",
+      subject: "Science chapter 1 Biology",
+      teacher: "Teacher: Sir Zothana",
+      time: "Time: 2:00pm to 3:00pm",
+      type: "Live Sessions",
+    },
+  ];
 
   const filteredNotifications =
     notificationFilter === "All"
@@ -234,7 +205,11 @@ export default function Dashboard() {
               className="arrowBtn"
               onClick={() => setShowAllSessions(!showAllSessions)}
             >
-              {showAllSessions ? "˄" : "˅"}
+              <span className={`arrowBtn__chevron ${showAllSessions ? "arrowBtn__chevron--up" : ""}`}>
+                <svg width="14" height="10" viewBox="0 0 12 8" fill="none">
+                  <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
             </button>
           </div>
 
@@ -296,29 +271,51 @@ export default function Dashboard() {
           {/* Left column: Assignment + Quiz */}
           <div className="dashExact__leftCol">
             <div className="whiteCard">
-              <div className="cardHeader">
+              <div
+                className="cardHeader cardHeader--clickable"
+                onClick={() => setShowAssignments(!showAssignments)}
+              >
                 <h3>Assignment</h3>
-                <span className="miniArrow">˅</span>
+                <button className="arrowBtn">
+                  <span className={`arrowBtn__chevron ${showAssignments ? "arrowBtn__chevron--up" : ""}`}>
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
               </div>
 
-              <div className="listBody">
-                {assignments.map((a, idx) => (
-                  <AssignmentCard key={idx} {...a} />
-                ))}
-              </div>
+              {showAssignments && (
+                <div className="listBody">
+                  {assignments.map((a, idx) => (
+                    <AssignmentCard key={idx} {...a} />
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="whiteCard">
-              <div className="cardHeader">
+              <div
+                className="cardHeader cardHeader--clickable"
+                onClick={() => setShowQuizzes(!showQuizzes)}
+              >
                 <h3>Quiz</h3>
-                <span className="miniArrow">˅</span>
+                <button className="arrowBtn">
+                  <span className={`arrowBtn__chevron ${showQuizzes ? "arrowBtn__chevron--up" : ""}`}>
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
               </div>
 
-              <div className="listBody">
-                {quizzes.map((q, idx) => (
-                  <AssignmentCard key={idx} {...q} />
-                ))}
-              </div>
+              {showQuizzes && (
+                <div className="listBody">
+                  {quizzes.map((q, idx) => (
+                    <AssignmentCard key={idx} {...q} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

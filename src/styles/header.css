@@ -33,6 +33,10 @@
 
 /* ✅ Select course button */
 .header__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: #0a4d55;
   color: white;
   border: none;
@@ -42,7 +46,16 @@
   font-weight: 700;
   font-size: 12px;
   min-width: 140px;
-  text-align: center;
+}
+
+.header__chevron {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.header__chevron--up {
+  transform: rotate(180deg);
 }
 
 /* ✅ Dropdown menu */
@@ -71,6 +84,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
 }
 
 .header__avatar {
@@ -81,4 +95,105 @@
   display: grid;
   place-items: center;
   font-size: 16px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.header__avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header__avatarEmoji {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Profile Dropdown */
+.header__profileDropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.header__profileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+}
+
+.header__profileName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.header__profileImgWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+}
+
+.header__profileImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header__profileEmoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.header__profileDivider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 0 16px;
+}
+
+.header__profileMenu {
+  padding: 12px 0;
+}
+
+.header__profileItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.header__profileItem:hover {
+  background: #f5f5f5;
+}
+
+.header__profileArrow {
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+
+.header__profileLogout {
+  color: #333;
+}
+
+.header__logoutIcon {
+  font-size: 16px;
+  color: #666;
 }
