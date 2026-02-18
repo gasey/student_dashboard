@@ -10,18 +10,21 @@ import ChangePassword from "./pages/ChangePassword";
 import Subjects from "./pages/Subjects";
 import SubjectDetails from "./pages/SubjectDetails";
 import SubjectsAssignments from "./pages/SubjectsAssignments";
+import AssignmentDetail from "./pages/AssignmentDetail";
+
 import SubjectsQuiz from "./pages/SubjectsQuiz";
 import QuizList from "./pages/QuizList";
 import QuizDetail from "./pages/QuizDetail";
 import QuizResult from "./pages/QuizResult";
+
 import SubjectsRecordings from "./pages/SubjectsRecordings";
 import RecordingsList from "./pages/RecordingsList";
 import RecordingDetail from "./pages/RecordingDetail";
+
 import SubjectsStudyMaterial from "./pages/SubjectsStudyMaterial";
 import StudyMaterialList from "./pages/StudyMaterialList";
-import AssignmentDetail from "./pages/AssignmentDetail";
-import LiveSessionDetail from "./pages/LiveSessionDetail";
 
+import LiveSessionDetail from "./pages/LiveSessionDetail";
 import LiveSessions from "./pages/LiveSessions";
 import Quiz from "./pages/Quiz";
 
@@ -32,28 +35,65 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<StudentLayout />}>
+
+              {/* Dashboard */}
               <Route index element={<Dashboard />} />
+
+              {/* Profile */}
               <Route path="profile" element={<Profile />} />
               <Route path="change-password" element={<ChangePassword />} />
 
+              {/* Subjects */}
               <Route path="subjects" element={<Subjects />} />
-              <Route path="subjects/:id" element={<SubjectDetails />} />
-              <Route path="subjects/assignments" element={<SubjectsAssignments />} />
-              <Route path="subjects/assignments/:id" element={<AssignmentDetail />} />
+              <Route path="subjects/:subjectId" element={<SubjectDetails />} />
+
+              {/* Assignments (nested under subject) */}
+              <Route
+                path="subjects/:subjectId/assignments"
+                element={<SubjectsAssignments />}
+              />
+              <Route
+                path="subjects/:subjectId/assignments/:assignmentId"
+                element={<AssignmentDetail />}
+              />
+
+              {/* Quiz */}
               <Route path="subjects/quiz" element={<SubjectsQuiz />} />
               <Route path="subjects/quiz/:subjectId" element={<QuizList />} />
-              <Route path="subjects/quiz/:subjectId/take/:quizId" element={<QuizDetail />} />
-              <Route path="subjects/quiz/:subjectId/result/:quizId" element={<QuizResult />} />
+              <Route
+                path="subjects/quiz/:subjectId/take/:quizId"
+                element={<QuizDetail />}
+              />
+              <Route
+                path="subjects/quiz/:subjectId/result/:quizId"
+                element={<QuizResult />}
+              />
+
+              {/* Recordings */}
               <Route path="subjects/recordings" element={<SubjectsRecordings />} />
-              <Route path="subjects/recordings/:id" element={<RecordingsList />} />
-              <Route path="subjects/recordings/:id/video/:videoId" element={<RecordingDetail />} />
-              <Route path="subjects/study-material" element={<SubjectsStudyMaterial />} />
-              <Route path="subjects/study-material/:id" element={<StudyMaterialList />} />
+              <Route path="subjects/recordings/:subjectId" element={<RecordingsList />} />
+              <Route
+                path="subjects/recordings/:subjectId/video/:videoId"
+                element={<RecordingDetail />}
+              />
 
-              <Route path="live-sessions/detail" element={<LiveSessionDetail />} />
+              {/* Study Material */}
+              <Route
+                path="subjects/study-material"
+                element={<SubjectsStudyMaterial />}
+              />
+              <Route
+                path="subjects/study-material/:subjectId"
+                element={<StudyMaterialList />}
+              />
+
+              {/* Live Sessions */}
               <Route path="live-sessions" element={<LiveSessions />} />
+              <Route path="live-sessions/detail" element={<LiveSessionDetail />} />
 
+              {/* Global Quiz */}
               <Route path="quiz" element={<Quiz />} />
+
             </Route>
           </Routes>
         </BrowserRouter>

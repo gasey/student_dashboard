@@ -1,169 +1,132 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../api/apiClient";
 import AssignmentPendingCard from "../components/AssignmentPendingCard";
 import AssignmentCompletedCard from "../components/AssignmentCompletedCard";
 import "../styles/assignmentPending.css";
 
 export default function SubjectsAssignments() {
+  const { subjectId } = useParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("pending");
 
-  // State for data (future backend data)
+  const [activeTab, setActiveTab] = useState("pending");
   const [pendingData, setPendingData] = useState([]);
   const [completedData, setCompletedData] = useState([]);
-
-  // Mock data (simulates backend response)
-  useEffect(() => {
-    const mockPendingData = [
-    {
-      id: 1,
-      img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 2,
-      img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 3,
-      img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 4,
-      img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 5,
-      img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 6,
-      img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-    {
-      id: 7,
-      img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
-      title: "Asgn./Quiz - X",
-      teacher: "Teacher Name",
-      deadline: "Date & Time (Deadline)",
-    },
-  ];
-
-    const mockCompletedData = [
-      {
-        id: 1,
-        img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
-        title: "Asgn./Quiz - X",
-        teacher: "Teacher Name",
-        completedDate: "Date & Time (Completed)",
-      },
-      {
-        id: 2,
-        img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
-        title: "Asgn./Quiz - X",
-        teacher: "Teacher Name",
-        completedDate: "Date & Time (Completed)",
-      },
-      {
-        id: 3,
-        img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600",
-        title: "Asgn./Quiz - X",
-        teacher: "Teacher Name",
-        completedDate: "Date & Time (Completed)",
-      },
-      {
-        id: 4,
-        img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600",
-        title: "Asgn./Quiz - X",
-        teacher: "Teacher Name",
-        completedDate: "Date & Time (Completed)",
-      },
-      {
-        id: 5,
-        img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
-        title: "Asgn./Quiz - X",
-        teacher: "Teacher Name",
-        completedDate: "Date & Time (Completed)",
-      },
-    ];
-
-    setPendingData(mockPendingData);
-    setCompletedData(mockCompletedData);
-  }, []);
-
-{/*   // example for backend //
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-  fetch("/api/subjects-assignments")
-    .then((res) => res.json())
-    .then((data) => {
-      setPendingData(data.pending);
-      setCompletedData(data.completed);
-    });
-}, []);
+    async function fetchAssignments() {
+      try {
+        setLoading(true);
+        const res = await api.get(
+          `/assignments/subjects/${subjectId}/`
+        );
 
-*/}
+        const pending = [];
+        const completed = [];
+
+        res.data.forEach((assignment) => {
+          if (assignment.status === "SUBMITTED") {
+            completed.push(assignment);
+          } else {
+            pending.push(assignment);
+          }
+        });
+
+        setPendingData(pending);
+        setCompletedData(completed);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load assignments.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAssignments();
+  }, [subjectId]);
+
+  if (loading) return <div>Loading assignments...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="assignmentPage">
       <div className="assignmentBox">
-        {/* Back Button */}
-        <button className="assignmentBack" onClick={() => navigate(-1)}>
+        <button
+          className="assignmentBack"
+          onClick={() => navigate(-1)}
+        >
           &lt; Back
         </button>
 
-        {/* Subject Title */}
-        <h2 className="assignmentSubjectTitle">Subject Name</h2>
+        <h2 className="assignmentSubjectTitle">
+          Assignments
+        </h2>
 
-        {/* Tabs and Search Row */}
         <div className="assignmentHeader">
           <div className="assignmentTabs">
             <button
-              className={`assignmentTab ${activeTab === "pending" ? "assignmentTab--active" : ""}`}
+              className={`assignmentTab ${
+                activeTab === "pending"
+                  ? "assignmentTab--active"
+                  : ""
+              }`}
               onClick={() => setActiveTab("pending")}
             >
-              Pending
+              Pending ({pendingData.length})
             </button>
+
             <button
-              className={`assignmentTab ${activeTab === "completed" ? "assignmentTab--active" : ""}`}
+              className={`assignmentTab ${
+                activeTab === "completed"
+                  ? "assignmentTab--active"
+                  : ""
+              }`}
               onClick={() => setActiveTab("completed")}
             >
-              Completed
+              Completed ({completedData.length})
             </button>
-          </div>
-
-          <div className="assignmentSearch">
-            <input placeholder="Search..." />
-            <span className="assignmentSearchIcon">🔍</span>
           </div>
         </div>
 
-        {/* Assignment Cards Grid */}
         <div className="assignmentGrid">
           {activeTab === "pending" &&
-            pendingData.map((item) => (
-              <AssignmentPendingCard key={item.id} {...item} />
+            (pendingData.length === 0 ? (
+              <div>No pending assignments.</div>
+            ) : (
+              pendingData.map((item) => (
+                <AssignmentPendingCard
+                  key={item.id}
+                  title={item.title}
+                  deadline={new Date(
+                    item.due_date
+                  ).toLocaleString()}
+                  onClick={() =>
+                    navigate(
+                      `/subjects/${subjectId}/assignments/${item.id}`
+                    )
+                  }
+                />
+              ))
             ))}
+
           {activeTab === "completed" &&
-            completedData.map((item) => (
-              <AssignmentCompletedCard key={item.id} {...item} />
+            (completedData.length === 0 ? (
+              <div>No completed assignments.</div>
+            ) : (
+              completedData.map((item) => (
+                <AssignmentCompletedCard
+                  key={item.id}
+                  title={item.title}
+                  completedDate="Submitted"
+                  onClick={() =>
+                    navigate(
+                      `/subjects/${subjectId}/assignments/${item.id}`
+                    )
+                  }
+                />
+              ))
             ))}
         </div>
       </div>
