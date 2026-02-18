@@ -23,14 +23,17 @@ export function CourseProvider({ children }) {
 
   const fetchCourses = async () => {
     try {
-      const res = await api.get("/my/");
+      const res = await api.get("/courses/my/");
       setCourses(res.data);
 
       if (res.data.length > 0) {
         setActiveCourse(res.data[0]);
+      } else {
+        setActiveCourse(null);
       }
     } catch (err) {
       console.error("Failed to fetch courses", err);
+      setActiveCourse(null);
     } finally {
       setLoading(false);
     }

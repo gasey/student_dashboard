@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     async function bootstrap() {
       try {
-        const res = await api.get("/me/");
+        const res = await api.get("/accounts/me/");
         setUser(res.data);
       } catch {
         setUser(null);
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await api.post("/logout/");
+      await api.post("/accounts/logout/");
     } catch {}
     setUser(null);
     window.location.href = "https://www.shikshacom.com/login";
