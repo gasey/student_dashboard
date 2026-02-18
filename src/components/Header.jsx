@@ -12,7 +12,8 @@ export default function Header() {
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
 
-  const { courses, selectedCourseId, selectCourse } = useCourse();
+  // ✅ FIXED — use activeCourse instead of selectedCourseId
+  const { courses, activeCourse, selectCourse } = useCourse();
   const { user, logout } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -39,10 +40,6 @@ export default function Header() {
   // ===============================
   // HELPERS
   // ===============================
-
-  const selectedCourse = courses.find(
-    (c) => c.id === selectedCourseId
-  );
 
   const renderAvatar = () => {
     if (user?.profile?.avatar_type === "emoji") {
@@ -74,7 +71,6 @@ export default function Header() {
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
   };
 
   // ===============================
@@ -98,7 +94,7 @@ export default function Header() {
           className="header__btn"
           onClick={() => setOpen((prev) => !prev)}
         >
-          {selectedCourse?.title || "Select Course"}
+          {activeCourse?.title || "Select Course"}
           <span
             className={`header__chevron ${
               open ? "header__chevron--up" : ""
