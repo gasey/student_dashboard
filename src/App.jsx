@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { CourseProvider } from "./contexts/CourseContext";
+
 import StudentLayout from "./layout/StudentLayout";
 
 import Dashboard from "./pages/Dashboard";
@@ -24,35 +27,37 @@ import Quiz from "./pages/Quiz";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<StudentLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="change-password" element={<ChangePassword />} />
+    <AuthProvider>
+      <CourseProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<StudentLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="change-password" element={<ChangePassword />} />
 
-          <Route path="subjects" element={<Subjects />} />
-          <Route path="subjects/:id" element={<SubjectDetails />} />
-          <Route path="subjects/assignments" element={<SubjectsAssignments />} />
-          <Route path="subjects/assignments/:id" element={<AssignmentDetail />} />
-          <Route path="subjects/quiz" element={<SubjectsQuiz />} />
-          <Route path="subjects/quiz/:subjectId" element={<QuizList />} />
-          <Route path="subjects/quiz/:subjectId/take/:quizId" element={<QuizDetail />} />
-          <Route path="subjects/quiz/:subjectId/result/:quizId" element={<QuizResult />} />
-          <Route path="subjects/recordings" element={<SubjectsRecordings />} />
-          <Route path="subjects/recordings/:id" element={<RecordingsList />} />
-          <Route path="subjects/recordings/:id/video/:videoId" element={<RecordingDetail />} />
-          <Route path="subjects/study-material" element={<SubjectsStudyMaterial />} />
+              <Route path="subjects" element={<Subjects />} />
+              <Route path="subjects/:id" element={<SubjectDetails />} />
+              <Route path="subjects/assignments" element={<SubjectsAssignments />} />
+              <Route path="subjects/assignments/:id" element={<AssignmentDetail />} />
+              <Route path="subjects/quiz" element={<SubjectsQuiz />} />
+              <Route path="subjects/quiz/:subjectId" element={<QuizList />} />
+              <Route path="subjects/quiz/:subjectId/take/:quizId" element={<QuizDetail />} />
+              <Route path="subjects/quiz/:subjectId/result/:quizId" element={<QuizResult />} />
+              <Route path="subjects/recordings" element={<SubjectsRecordings />} />
+              <Route path="subjects/recordings/:id" element={<RecordingsList />} />
+              <Route path="subjects/recordings/:id/video/:videoId" element={<RecordingDetail />} />
+              <Route path="subjects/study-material" element={<SubjectsStudyMaterial />} />
+              <Route path="subjects/study-material/:id" element={<StudyMaterialList />} />
 
+              <Route path="live-sessions/detail" element={<LiveSessionDetail />} />
+              <Route path="live-sessions" element={<LiveSessions />} />
 
-          <Route path="subjects/study-material/:id" element={<StudyMaterialList />} />
-          <Route path="live-sessions/detail" element={<LiveSessionDetail />} />
-
-
-          <Route path="live-sessions" element={<LiveSessions />} />
-          <Route path="quiz" element={<Quiz />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+              <Route path="quiz" element={<Quiz />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CourseProvider>
+    </AuthProvider>
   );
 }
