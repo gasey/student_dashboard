@@ -31,7 +31,7 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const res = await api.get("/me/");
+      const res = await api.get("/accounts/me/");
       const data = res.data;
 
       setStudentInfo({
@@ -64,7 +64,7 @@ export default function Profile() {
 
   const handleEditSave = async () => {
     try {
-      const res = await api.patch("/me/", {
+      const res = await api.patch("/accounts/me/", {
         username: editValues.name,
         profile: {
           full_name: editValues.name,
@@ -111,7 +111,7 @@ export default function Profile() {
   const handleAvatarSave = async () => {
     try {
       if (tempAvatarType === "emoji") {
-        await api.patch("/me/", {
+        await api.patch("/accounts/me/", {
           profile: { avatar_emoji: tempAvatar },
         });
       }
@@ -120,7 +120,7 @@ export default function Profile() {
         const formData = new FormData();
         formData.append("avatar_image", tempAvatarFile);
 
-        await api.patch("/me/", formData, {
+        await api.patch("/accounts/me/", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
