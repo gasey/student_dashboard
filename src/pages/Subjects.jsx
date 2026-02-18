@@ -16,6 +16,7 @@ export default function Subjects() {
     if (courseLoading) return;
 
     if (!activeCourse) {
+      setSubjects([]);
       setLoading(false);
       return;
     }
@@ -23,11 +24,12 @@ export default function Subjects() {
     async function fetchSubjects() {
       try {
         const res = await api.get(
-          `/${activeCourse.id}/subjects/`
+          `/courses/${activeCourse.id}/subjects/`
         );
         setSubjects(res.data);
       } catch (err) {
         console.error("Failed to load subjects", err);
+        setSubjects([]);
       } finally {
         setLoading(false);
       }
@@ -54,15 +56,19 @@ export default function Subjects() {
         </div>
 
         <div className="subjectsGrid">
-          {subjects.map((item) => (
-            <SubjectCard
-              key={item.id}
-              img="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600"
-              subject={item.name}
-              teacher={item.teacher_name}
-              onClick={() => navigate(`/subjects/${item.id}`)}
-            />
-          ))}
+          {subjects.length === 0 ? (
+            <div>No subjects found.</div>
+          ) : (
+            subjects.map((item) => (
+              <SubjectCard
+                key={item.id}
+                img="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600"
+                subject={item.name}
+                teacher={item.teacher_name}
+                onClick={() => navigate(`/subjects/${item.id}`)}
+              />
+            ))
+          )}
         </div>
       </div>
     </div>
