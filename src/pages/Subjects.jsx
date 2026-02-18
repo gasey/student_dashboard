@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCourse } from "../contexts/CourseContext";
-import api from "../api/axios";
+import api from "../api/apiClient";
 import SubjectCard from "../components/SubjectCard";
 import "../styles/subjects.css";
 
