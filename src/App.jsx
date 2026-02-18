@@ -7,8 +7,10 @@ import StudentLayout from "./layout/StudentLayout";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
+
 import Subjects from "./pages/Subjects";
 import SubjectDetails from "./pages/SubjectDetails";
+
 import SubjectsAssignments from "./pages/SubjectsAssignments";
 import AssignmentDetail from "./pages/AssignmentDetail";
 
@@ -43,21 +45,20 @@ export default function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="change-password" element={<ChangePassword />} />
 
-              {/* Subjects */}
+              {/* Subjects list */}
               <Route path="subjects" element={<Subjects />} />
-              <Route path="subjects/:subjectId" element={<SubjectDetails />} />
 
-              {/* Assignments (nested under subject) */}
-              <Route
-                path="subjects/:subjectId/assignments"
-                element={<SubjectsAssignments />}
-              />
+              {/* ===== ASSIGNMENTS (specific first) ===== */}
               <Route
                 path="subjects/:subjectId/assignments/:assignmentId"
                 element={<AssignmentDetail />}
               />
+              <Route
+                path="subjects/:subjectId/assignments"
+                element={<SubjectsAssignments />}
+              />
 
-              {/* Quiz */}
+              {/* ===== QUIZ ===== */}
               <Route path="subjects/quiz" element={<SubjectsQuiz />} />
               <Route path="subjects/quiz/:subjectId" element={<QuizList />} />
               <Route
@@ -69,15 +70,18 @@ export default function App() {
                 element={<QuizResult />}
               />
 
-              {/* Recordings */}
+              {/* ===== RECORDINGS ===== */}
               <Route path="subjects/recordings" element={<SubjectsRecordings />} />
-              <Route path="subjects/recordings/:subjectId" element={<RecordingsList />} />
               <Route
                 path="subjects/recordings/:subjectId/video/:videoId"
                 element={<RecordingDetail />}
               />
+              <Route
+                path="subjects/recordings/:subjectId"
+                element={<RecordingsList />}
+              />
 
-              {/* Study Material */}
+              {/* ===== STUDY MATERIAL ===== */}
               <Route
                 path="subjects/study-material"
                 element={<SubjectsStudyMaterial />}
@@ -87,9 +91,18 @@ export default function App() {
                 element={<StudyMaterialList />}
               />
 
+              {/* ===== GENERIC SUBJECT ROUTE LAST ===== */}
+              <Route
+                path="subjects/:subjectId"
+                element={<SubjectDetails />}
+              />
+
               {/* Live Sessions */}
               <Route path="live-sessions" element={<LiveSessions />} />
-              <Route path="live-sessions/detail" element={<LiveSessionDetail />} />
+              <Route
+                path="live-sessions/detail"
+                element={<LiveSessionDetail />}
+              />
 
               {/* Global Quiz */}
               <Route path="quiz" element={<Quiz />} />
