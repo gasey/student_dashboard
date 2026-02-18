@@ -1,20 +1,25 @@
-import { createContext, useEffect, useState, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import api from "../api/apiClient";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "./AuthContext";
 
-export const CourseContext = createContext();
+const CourseContext = createContext();
 
-export const CourseProvider = ({ children }) => {
-  const { user } = useAuth();
+export function CourseProvider({ children }) {
+  const { user, loading: authLoading } = useAuth();
 
   const [courses, setCourses] = useState([]);
   const [activeCourse, setActiveCourse] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
+    if (authLoading) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
     fetchCourses();
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchCourses = async () => {
     try {
@@ -25,7 +30,7 @@ export const CourseProvider = ({ children }) => {
         setActiveCourse(res.data[0]);
       }
     } catch (err) {
-      console.error("Failed to fetch courses");
+      console.error("Failed to fetch courses", err);
     } finally {
       setLoading(false);
     }
@@ -33,9 +38,7 @@ export const CourseProvider = ({ children }) => {
 
   const selectCourse = (courseId) => {
     const selected = courses.find((c) => c.id === courseId);
-    if (selected) {
-      setActiveCourse(selected);
-    }
+    if (selected) setActiveCourse(selected);
   };
 
   return (
@@ -50,8 +53,12 @@ export const CourseProvider = ({ children }) => {
       {children}
     </CourseContext.Provider>
   );
-};
+}
 
-export const useCourse = () => {
-  return useContext(CourseContext);
-};
+export function useCourse() {
+  const context = useContext(CourseContext);
+  if (!context) {
+    throw new Error("useCourse must be used inside CourseProvider");
+  }
+  return context;
+}

@@ -1,13 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "../api/apiClient";
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const isAuthenticated = !!user;
 
   useEffect(() => {
     async function bootstrap() {
@@ -34,11 +32,22 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, isAuthenticated, logout }}
+      value={{
+        user,
+        loading,
+        isAuthenticated: !!user,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+  return context;
+}

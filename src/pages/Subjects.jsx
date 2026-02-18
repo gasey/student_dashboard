@@ -7,18 +7,23 @@ import "../styles/subjects.css";
 
 export default function Subjects() {
   const navigate = useNavigate();
-  const { selectedCourseId } = useCourse();
+  const { activeCourse, loading: courseLoading } = useCourse();
 
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!selectedCourseId) return;
+    if (courseLoading) return;
+
+    if (!activeCourse) {
+      setLoading(false);
+      return;
+    }
 
     async function fetchSubjects() {
       try {
         const res = await api.get(
-          `/courses/${selectedCourseId}/subjects/`
+          `/courses/${activeCourse.id}/subjects/`
         );
         setSubjects(res.data);
       } catch (err) {
@@ -29,9 +34,13 @@ export default function Subjects() {
     }
 
     fetchSubjects();
-  }, [selectedCourseId]);
+  }, [activeCourse, courseLoading]);
 
   if (loading) return <div>Loading subjects...</div>;
+
+  if (!activeCourse) {
+    return <div>No course selected.</div>;
+  }
 
   return (
     <div className="subjectsPage">
