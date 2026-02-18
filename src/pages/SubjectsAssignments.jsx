@@ -16,9 +16,13 @@ export default function SubjectsAssignments() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!subjectId) return;
+
     async function fetchAssignments() {
       try {
         setLoading(true);
+        setError(null);
+
         const res = await api.get(
           `/assignments/subjects/${subjectId}/`
         );
@@ -37,7 +41,7 @@ export default function SubjectsAssignments() {
         setPendingData(pending);
         setCompletedData(completed);
       } catch (err) {
-        console.error(err);
+        console.error("Assignment fetch error:", err);
         setError("Failed to load assignments.");
       } finally {
         setLoading(false);
@@ -98,15 +102,11 @@ export default function SubjectsAssignments() {
               pendingData.map((item) => (
                 <AssignmentPendingCard
                   key={item.id}
+                  id={item.id}
                   title={item.title}
                   deadline={new Date(
                     item.due_date
                   ).toLocaleString()}
-                  onClick={() =>
-                    navigate(
-                      `/subjects/${subjectId}/assignments/${item.id}`
-                    )
-                  }
                 />
               ))
             ))}
@@ -118,13 +118,9 @@ export default function SubjectsAssignments() {
               completedData.map((item) => (
                 <AssignmentCompletedCard
                   key={item.id}
+                  id={item.id}
                   title={item.title}
                   completedDate="Submitted"
-                  onClick={() =>
-                    navigate(
-                      `/subjects/${subjectId}/assignments/${item.id}`
-                    )
-                  }
                 />
               ))
             ))}
