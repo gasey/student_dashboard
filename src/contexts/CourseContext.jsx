@@ -53,3 +53,9 @@ export default function CourseProvider({ children }) {
     </CourseContext.Provider>
   );
 }
+
+import { useContext } from "react";
+
+export const useCourse = () => {
+  return useContext(CourseContext);
+};
