@@ -23,7 +23,7 @@ export function CourseProvider({ children }) {
 
   const fetchCourses = async () => {
     try {
-      const res = await api.get("/courses/my/");
+      const res = await api.get("/my/");
       setCourses(res.data);
 
       if (res.data.length > 0) {
