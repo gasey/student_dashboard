@@ -1,10 +1,10 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import api from "../api/apiClient";
-import {useAuth} from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 export const CourseContext = createContext();
 
-export const CourseProvider = ({ children }) =>{
+export const CourseProvider = ({ children }) => {
   const { user } = useAuth();
 
   const [courses, setCourses] = useState([]);
@@ -13,7 +13,6 @@ export const CourseProvider = ({ children }) =>{
 
   useEffect(() => {
     if (!user) return;
-
     fetchCourses();
   }, [user]);
 
@@ -22,7 +21,6 @@ export const CourseProvider = ({ children }) =>{
       const res = await api.get("student/my-courses/");
       setCourses(res.data);
 
-      // Auto-select first enrolled course
       if (res.data.length > 0) {
         setActiveCourse(res.data[0]);
       }
@@ -34,7 +32,7 @@ export const CourseProvider = ({ children }) =>{
   };
 
   const selectCourse = (courseId) => {
-    const selected = courses.find(c => c.id === courseId);
+    const selected = courses.find((c) => c.id === courseId);
     if (selected) {
       setActiveCourse(selected);
     }
@@ -52,9 +50,7 @@ export const CourseProvider = ({ children }) =>{
       {children}
     </CourseContext.Provider>
   );
-}
-
-import { useContext } from "react";
+};
 
 export const useCourse = () => {
   return useContext(CourseContext);
