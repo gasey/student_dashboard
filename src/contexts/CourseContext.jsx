@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import api from "../api/apiClient";
-import useAuth from "../hooks/useAuth";
+import {useAuth} from "../hooks/useAuth";
 
 export const CourseContext = createContext();
 
