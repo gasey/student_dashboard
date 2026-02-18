@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api/axios";
+import api from "../api/apiClient";
 import "../styles/profile.css";
 
 export default function Profile() {
@@ -20,7 +20,7 @@ export default function Profile() {
     phone: "",
   });
 
-  const emojis = ["😀","😎","🤓","😊","🥳","😇","🤩","😍"];
+  const emojis = ["😀", "😎", "🤓", "😊", "🥳", "😇", "🤩", "😍"];
 
   // ===============================
   // FETCH PROFILE FROM BACKEND
