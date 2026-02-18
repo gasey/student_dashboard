@@ -4,7 +4,7 @@ import {useAuth} from "../hooks/useAuth";
 
 export const CourseContext = createContext();
 
-export default function CourseProvider({ children }) {
+export const CourseProvider = ({ children }) =>{
   const { user } = useAuth();
 
   const [courses, setCourses] = useState([]);
