@@ -1,146 +1,233 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import api from "../api/apiClient";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import "../styles/assignmentDetail.css";
 
 export default function AssignmentDetail() {
-  const { subjectId, assignmentId } = useParams();
   const navigate = useNavigate();
+  const { assignmentId } = useParams(); // 👈 dynamic assignment id from URL
+
+  /* ===============================
+     STATE
+  =============================== */
 
   const [assignment, setAssignment] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedAt, setSubmittedAt] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+
+  /* ===============================
+     FETCH ASSIGNMENT (BACKEND READY)
+  =============================== */
 
   useEffect(() => {
-    async function fetchDetail() {
-      try {
-        const res = await api.get(
-          `/assignments/${assignmentId}/`
-        );
-        setAssignment(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    // 🔹 MOCK BACKEND RESPONSE (remove later)
+    const mockAssignment = {
+      id: assignmentId,
+      subject: "Subject Name",
+      assignmentNo: "Assignment No. X",
+      teacher: "Miss Ruaifeli",
+      assignedAt: "21 Jan 2026",
+      dueDate: "24 Jan 2026",
+      title: "Biology chapter 1",
+      description: "Answer all the questions on the attached file",
+      attachmentName: "Science biology assignment.pdf",
+
+      // submission will come from backend
+      submission: null, 
+      // submission example:
+      // {
+      //   submittedAt: "2026-01-22T10:45:00",
+      //   fileUrl: "https://server/file.pdf"
+      // }
+    };
+
+    setAssignment(mockAssignment);
+
+    if (mockAssignment.submission) {
+      setIsSubmitted(true);
+      setSubmittedAt(new Date(mockAssignment.submission.submittedAt));
     }
 
-    fetchDetail();
+    setLoading(false);
   }, [assignmentId]);
 
-  async function handleSubmit() {
-    if (!selectedFile) return;
+  /* ===============================
+     FILE UPLOAD
+  =============================== */
 
-    try {
-      setSubmitting(true);
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) setUploadedFile(file);
+  };
 
-      const formData = new FormData();
-      formData.append("file", selectedFile);
+  /* ===============================
+     SUBMIT TO BACKEND
+  =============================== */
 
-      await api.post(
-        `/assignments/${assignmentId}/submit/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+  const handleSubmit = async () => {
+    if (!uploadedFile) return;
 
-      // Refresh detail after submit
-      const res = await api.get(
-        `/assignments/${assignmentId}/`
-      );
-      setAssignment(res.data);
-      setSelectedFile(null);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setSubmitting(false);
-    }
-  }
+    // Backend upload format
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+    formData.append("assignmentId", assignment.id);
+
+    // REAL API (uncomment later)
+    /*
+    await fetch(`/api/assignments/${assignment.id}/submit`, {
+      method: "POST",
+      body: formData,
+    });
+    */
+
+    const now = new Date();
+    setSubmittedAt(now);
+    setIsSubmitted(true);
+  };
+
+  const handleOpenFile = () => {
+    alert("Open file from backend URL");
+  };
+
+  /* ===============================
+     DATE FORMATTERS
+  =============================== */
+
+  const formatSubmittedTop = (dateObj) => {
+    if (!dateObj) return "";
+    const d = dateObj.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    const t = dateObj.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return `Submitted: ${d} / ${t}`;
+  };
+
+  const formatSmallDate = (dateObj) => {
+    if (!dateObj) return "";
+    return dateObj.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   if (loading) return <div>Loading...</div>;
-  if (!assignment) return <div>Assignment not found.</div>;
 
-  const expired =
-    new Date(assignment.due_date) < new Date();
+  /* ===============================
+     UI (UNCHANGED)
+  =============================== */
 
   return (
     <div className="assignmentDetailPage">
-      <button onClick={() => navigate(-1)}>
-        &lt; Back
-      </button>
+      <div className="assignmentTopBar">
+        <button className="assignmentBack" onClick={() => navigate(-1)}>
+          &lt; Back
+        </button>
+      </div>
 
-      <h2>{assignment.title}</h2>
+      <div className="assignmentDetailBox">
+        <div className="assignmentDetailHeader">
+          <h2 className="assignmentDetailSubject">
+            {assignment.subject}
+          </h2>
 
-      <p>{assignment.description}</p>
-
-      <p>
-        Due:{" "}
-        {new Date(
-          assignment.due_date
-        ).toLocaleString()}
-      </p>
-
-      {assignment.attachment && (
-        <a
-          href={assignment.attachment}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Download Attachment
-        </a>
-      )}
-
-      <hr />
-
-      <h3>Status: {assignment.submission_status}</h3>
-
-      {assignment.submitted_file && (
-        <div>
-          <p>
-            Submitted at:{" "}
-            {new Date(
-              assignment.submitted_at
-            ).toLocaleString()}
-          </p>
-          <a
-            href={assignment.submitted_file}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View Submitted File
-          </a>
-        </div>
-      )}
-
-      {!expired &&
-        assignment.submission_status !==
-          "SUBMITTED" && (
-          <div>
-            <input
-              type="file"
-              onChange={(e) =>
-                setSelectedFile(e.target.files[0])
-              }
-            />
-            <button
-              onClick={handleSubmit}
-              disabled={submitting}
-            >
-              {submitting
-                ? "Submitting..."
-                : "Submit Assignment"}
-            </button>
+          <div className="assignmentSearch">
+            <input placeholder="Search..." />
+            <span className="assignmentSearchIcon">🔍</span>
           </div>
-        )}
-
-      {expired && (
-        <div style={{ color: "red" }}>
-          Assignment expired.
         </div>
-      )}
+
+        <div className="assignmentDetailContent">
+          {/* LEFT */}
+          <div className="assignmentDetailLeft">
+            <div className="assignmentTitleRow">
+              <h3 className="assignmentDetailTitle">
+                {assignment.assignmentNo}
+              </h3>
+
+              {isSubmitted && (
+                <p className="submittedTopText">
+                  {formatSubmittedTop(submittedAt)}
+                </p>
+              )}
+            </div>
+
+            <p className="assignmentDetailMeta">
+              {assignment.teacher} - {assignment.assignedAt}
+            </p>
+
+            <p className="assignmentDetailDue">
+              Due Date: {assignment.dueDate}
+            </p>
+
+            <div className="assignmentDetailDivider"></div>
+
+            <p className="assignmentDetailLabel">
+              Title: {assignment.title}
+            </p>
+
+            <p className="assignmentDetailDesc">
+              Description: {assignment.description}
+            </p>
+
+            <div className="fileStrip">
+              <div className="fileStripIcon">📄</div>
+              <div className="fileStripName">
+                {assignment.attachmentName}
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="assignmentDetailRight">
+            <div className="yourWorkTop">
+              <h4 className="assignmentDetailWorkTitle">Your Work</h4>
+
+              {isSubmitted && (
+                <span className="yourWorkDate">
+                  {formatSmallDate(submittedAt)}
+                </span>
+              )}
+            </div>
+
+            {!isSubmitted ? (
+              <>
+                <label className="assignmentDetailUploadBtn">
+                  <input type="file" hidden onChange={handleFileUpload} />
+                  [Upload File]
+                </label>
+
+                <button
+                  className="assignmentDetailSubmitBtn"
+                  onClick={handleSubmit}
+                  disabled={!uploadedFile}
+                >
+                  Submit
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="openFileBtn" onClick={handleOpenFile}>
+                  [Open File]
+                </button>
+
+                <button className="submittedBtn" disabled>
+                  Submitted
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+
+
