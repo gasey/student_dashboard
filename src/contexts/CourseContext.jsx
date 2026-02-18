@@ -9,6 +9,7 @@ export function CourseProvider({ children }) {
 
   const [courses, setCourses] = useState([]);
   const [activeCourse, setActiveCourse] = useState(null);
+  const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +22,14 @@ export function CourseProvider({ children }) {
     fetchCourses();
   }, [user, authLoading]);
 
+  useEffect(() => {
+    if (activeCourse) {
+      fetchSubjects(activeCourse.id);
+    } else {
+      setSubjects([]);
+    }
+  }, [activeCourse]);
+
   const fetchCourses = async () => {
     try {
       const res = await api.get("/courses/my/");
@@ -28,14 +37,21 @@ export function CourseProvider({ children }) {
 
       if (res.data.length > 0) {
         setActiveCourse(res.data[0]);
-      } else {
-        setActiveCourse(null);
       }
     } catch (err) {
       console.error("Failed to fetch courses", err);
-      setActiveCourse(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchSubjects = async (courseId) => {
+    try {
+      const res = await api.get(`/courses/${courseId}/subjects/`);
+      setSubjects(res.data);
+    } catch (err) {
+      console.error("Failed to fetch subjects", err);
+      setSubjects([]);
     }
   };
 
@@ -49,6 +65,7 @@ export function CourseProvider({ children }) {
       value={{
         courses,
         activeCourse,
+        subjects,
         selectCourse,
         loading,
       }}
@@ -59,9 +76,5 @@ export function CourseProvider({ children }) {
 }
 
 export function useCourse() {
-  const context = useContext(CourseContext);
-  if (!context) {
-    throw new Error("useCourse must be used inside CourseProvider");
-  }
-  return context;
+  return useContext(CourseContext);
 }
