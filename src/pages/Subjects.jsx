@@ -23,7 +23,7 @@ export default function Subjects() {
     async function fetchSubjects() {
       try {
         const res = await api.get(
-          `/courses/${activeCourse.id}/subjects/`
+          `/${activeCourse.id}/subjects/`
         );
         setSubjects(res.data);
       } catch (err) {
