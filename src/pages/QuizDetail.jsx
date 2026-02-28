@@ -13,32 +13,43 @@ export default function QuizDetail() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  // ===============================
-  // FETCH QUIZ FROM BACKEND
-  // ===============================
+  // ==========================================
+  // FETCH QUIZ + START ATTEMPT
+  // ==========================================
   useEffect(() => {
     async function fetchQuiz() {
       try {
         setLoading(true);
         setError(null);
 
+        // 1️⃣ Start quiz attempt
+        await api.post(`/quizzes/${quizId}/start/`);
+
+        // 2️⃣ Fetch quiz data
         const res = await api.get(`/quizzes/${quizId}/`);
         setQuizData(res.data);
 
       } catch (err) {
         console.error("Failed to load quiz:", err);
-        setError("Unable to load quiz.");
+
+        if (err.response?.data?.detail) {
+          setError(err.response.data.detail);
+        } else {
+          setError("Unable to load quiz.");
+        }
       } finally {
         setLoading(false);
       }
     }
 
-    fetchQuiz();
+    if (quizId) {
+      fetchQuiz();
+    }
   }, [quizId]);
 
-  // ===============================
+  // ==========================================
   // HANDLE ANSWER CHANGE
-  // ===============================
+  // ==========================================
   const handleAnswerChange = (question_id, choice_id) => {
     setAnswers((prev) => ({
       ...prev,
@@ -46,9 +57,9 @@ export default function QuizDetail() {
     }));
   };
 
-  // ===============================
+  // ==========================================
   // SUBMIT QUIZ
-  // ===============================
+  // ==========================================
   const handleSubmit = async () => {
     try {
       setSubmitting(true);
@@ -63,27 +74,28 @@ export default function QuizDetail() {
 
       const res = await api.post(
         `/quizzes/${quizId}/submit/`,
-        {
-          answers: formattedAnswers,
-        }
+        { answers: formattedAnswers }
       );
 
-      navigate(`/subjects/quiz/result/${quizId}`, {
-        state: res.data,
-      });
+      // Go to result endpoint properly
+      navigate(`/quizzes/${quizId}/result`);
 
     } catch (err) {
       console.error("Submission failed:", err);
-      setError("Failed to submit quiz.");
+
+      if (err.response?.data?.detail) {
+        setError(err.response.data.detail);
+      } else {
+        setError("Failed to submit quiz.");
+      }
     } finally {
       setSubmitting(false);
     }
   };
 
-  // ===============================
+  // ==========================================
   // STATES
-  // ===============================
-
+  // ==========================================
   if (loading)
     return <div className="quizDetailPage">Loading quiz...</div>;
 
@@ -96,9 +108,9 @@ export default function QuizDetail() {
     (q) => answers[q.id] !== undefined
   );
 
-  // ===============================
+  // ==========================================
   // RENDER
-  // ===============================
+  // ==========================================
   return (
     <div className="quizDetailPage">
       <div className="quizDetailBox">
@@ -112,12 +124,8 @@ export default function QuizDetail() {
 
         <div className="quizDetailHeader">
           <h2 className="quizDetailTitle">
-            {quizData.subject_name || "Subject"}
+            {quizData.subject_name}
           </h2>
-          <div className="quizDetailSearch">
-            <input placeholder="Search..." />
-            <span className="quizDetailSearchIcon">🔍</span>
-          </div>
         </div>
 
         <div className="quizDetailContent">
@@ -127,12 +135,10 @@ export default function QuizDetail() {
               {quizData.title}
             </h3>
             <p className="quizDetailInfoMeta">
-              {quizData.teacher_name} -{" "}
-              {new Date(quizData.created_at).toLocaleDateString()}
+              {quizData.teacher_name}
             </p>
             <p className="quizDetailInfoDue">
-              Due Date:{" "}
-              {new Date(quizData.due_date).toLocaleString()}
+              Due: {new Date(quizData.due_date).toLocaleString()}
             </p>
           </div>
 
@@ -157,7 +163,6 @@ export default function QuizDetail() {
                           handleAnswerChange(q.id, choice.id)
                         }
                       />
-                      <span className="quizDetailOptionRadio"></span>
                       <span className="quizDetailOptionText">
                         {choice.text}
                       </span>
