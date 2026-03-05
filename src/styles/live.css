@@ -281,3 +281,25 @@
     z-index: 50;
   }
 }
+/* Raise hand button (student only) */
+.raise-hand-btn{
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: #fff7e6;
+  cursor: pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.raise-hand-btn:hover{
+  transform: translateY(-1px);
+}
+
+.raise-hand-btn:active{
+  transform: translateY(0px);
+}

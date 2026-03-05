@@ -68,10 +68,10 @@ export default function ChatPanel({ role }) {
 
       <div className="chat-input-area">
         {role === "student" && (
-          <button onClick={raiseHand} style={{ marginRight: "6px" }}>
-            ✋
-          </button>
-        )}
+  <button className="raise-hand-btn" onClick={raiseHand} title="Raise hand">
+    ✋
+  </button>
+)}
 
         <input
           value={input}
