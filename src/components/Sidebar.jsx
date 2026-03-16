@@ -15,7 +15,8 @@ export default function Sidebar({ setMenuOpen }) {
 
   const isSubjectsActive =
     location.pathname.startsWith("/subjects") ||
-    location.pathname.startsWith("/assignments");
+    location.pathname.startsWith("/assignments") ||
+    location.pathname.startsWith("/study-material");
 
   return (
     <aside className="sidebar">
@@ -93,7 +94,7 @@ export default function Sidebar({ setMenuOpen }) {
 
             <NavLink
               className="sidebar__subLink"
-              to="/subjects/study-material"
+              to="/study-material"
               onClick={() => setMenuOpen(false)}
             >
               <FaBookOpen /> <span>Study Material</span>
