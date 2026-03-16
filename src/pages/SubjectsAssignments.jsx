@@ -17,17 +17,14 @@ export default function SubjectsAssignments() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (!subjectId) {
-      setLoading(false);
-      return;
-    }
+    if (!subjectId) return;
 
     async function fetchAssignments() {
       try {
         setLoading(true);
         setError(null);
 
-        const res = await api.get(`/assignments/subject/${subjectId}/`);
+        const res = await api.get(`/api/assignments/subject/${subjectId}/`);
 
         const pending = [];
         const completed = [];
@@ -99,52 +96,32 @@ export default function SubjectsAssignments() {
       <div className="assignmentBodyBox">
         <div className="assignmentGrid">
           {activeTab === "pending" &&
-            (() => {
-              const filtered = pendingData.filter((item) =>
+            pendingData
+              .filter((item) =>
                 item.title.toLowerCase().includes(searchTerm.toLowerCase())
-              );
-
-              return filtered.length === 0 ? (
-                <div>
-                  {searchTerm
-                    ? "No matching assignments."
-                    : "No pending assignments."}
-                </div>
-              ) : (
-                filtered.map((item) => (
-                  <AssignmentPendingCard
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    deadline={new Date(item.due_date).toLocaleString()}
-                  />
-                ))
-              );
-            })()}
+              )
+              .map((item) => (
+                <AssignmentPendingCard
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  deadline={new Date(item.due_date).toLocaleString()}
+                />
+              ))}
 
           {activeTab === "completed" &&
-            (() => {
-              const filtered = completedData.filter((item) =>
+            completedData
+              .filter((item) =>
                 item.title.toLowerCase().includes(searchTerm.toLowerCase())
-              );
-
-              return filtered.length === 0 ? (
-                <div>
-                  {searchTerm
-                    ? "No matching assignments."
-                    : "No completed assignments."}
-                </div>
-              ) : (
-                filtered.map((item) => (
-                  <AssignmentCompletedCard
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    completedDate="Submitted"
-                  />
-                ))
-              );
-            })()}
+              )
+              .map((item) => (
+                <AssignmentCompletedCard
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  completedDate="Submitted"
+                />
+              ))}
         </div>
       </div>
     </div>
