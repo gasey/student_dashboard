@@ -86,14 +86,15 @@ export default function App() {
               />
 
               {/* ===== STUDY MATERIAL ===== */}
-              <Route
-                path="subjects/study-material"
-                element={<SubjectsStudyMaterial />}
-              />
-              <Route
-                path="subjects/study-material/:subjectId"
-                element={<StudyMaterialList />}
-              />
+             <Route
+  path="study-material"
+  element={<SubjectsStudyMaterial />}
+/>
+
+<Route
+  path="study-material/:subjectId"
+  element={<StudyMaterialList />}
+/>
 
               {/* ===== GENERIC SUBJECT ROUTE LAST ===== */}
               <Route
