@@ -24,7 +24,8 @@ export default function SubjectsAssignments() {
         setLoading(true);
         setError(null);
 
-        const res = await api.get(`/api/assignments/subject/${subjectId}/`);
+        // FIX: removed /api prefix
+        const res = await api.get(`/assignments/subject/${subjectId}/`);
 
         const pending = [];
         const completed = [];

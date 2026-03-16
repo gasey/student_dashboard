@@ -56,10 +56,10 @@ export default function App() {
               />
 
               {/* ASSIGNMENTS → FIRST SHOW SUBJECT LIST */}
-              <Route
-                path="assignments"
-                element={<Subjects />}
-              />
+          <Route
+  path="assignments"
+  element={<Subjects mode="assignments" />}
+/>
 
               {/* ASSIGNMENTS OF A SUBJECT */}
               <Route

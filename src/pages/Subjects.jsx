@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCourse } from "../contexts/CourseContext";
 import api from "../api/apiClient";
@@ -6,9 +6,8 @@ import SubjectCard from "../components/SubjectCard";
 import PageHeader from "../components/PageHeader";
 import "../styles/subjects.css";
 
-export default function Subjects() {
+export default function Subjects({ mode }) {
   const navigate = useNavigate();
-  const location = useLocation();
   const { activeCourse, loading: courseLoading } = useCourse();
 
   const [subjects, setSubjects] = useState([]);
@@ -31,7 +30,7 @@ export default function Subjects() {
     async function fetchSubjects() {
       try {
         const res = await api.get(`/courses/${activeCourse.id}/subjects/`);
-        setSubjects(res.data || []);
+        setSubjects(res.data);
       } catch (err) {
         console.error("Failed to load subjects", err);
         setSubjects([]);
@@ -49,7 +48,10 @@ export default function Subjects() {
   return (
     <div className="subjectsPage">
       <div className="subjectsHeaderBox">
-        <PageHeader title="Subjects" onSearch={setSearchTerm} />
+        <PageHeader
+          title={mode === "assignments" ? "Select Subject" : "Subjects"}
+          onSearch={setSearchTerm}
+        />
       </div>
 
       <div className="subjectsBodyBox">
@@ -67,13 +69,11 @@ export default function Subjects() {
                     ? subject.teachers.map((t) => t.name).join(", ")
                     : "No teacher assigned"
                 }
-                onClick={() => {
-                  if (location.pathname === "/assignments") {
-                    navigate(`/subjects/${subject.id}/assignments`);
-                  } else {
-                    navigate(`/subjects/${subject.id}`);
-                  }
-                }}
+                onClick={() =>
+                  mode === "assignments"
+                    ? navigate(`/subjects/${subject.id}/assignments`)
+                    : navigate(`/subjects/${subject.id}`)
+                }
               />
             ))
           )}
