@@ -181,10 +181,16 @@ export default function AssignmentDetail() {
                     />
                   </svg>
                 </div>
-
-                <div className="fileStripName">
-                  {assignment.attachment.split("/").pop()}
-                </div>
+<a
+  href={`http://localhost:8000${assignment.attachment}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fileStripName"
+  download
+>
+  {assignment.attachment.split("/").pop()}
+</a>
+              
               </div>
             )}
           </div>
