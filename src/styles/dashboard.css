@@ -3,6 +3,10 @@
 .dashExact {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  background: #bfd4d8;
+  min-height: 100vh;
 }
 
 /* Sessions + Calendar */
@@ -50,9 +54,10 @@
   background: #ffffff;
   border-radius: 16px;
   margin-top: 10px;
-  padding: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
+
 
 /* ===== CARD HEADER ===== */
 
@@ -64,8 +69,9 @@
 }
 
 .cardHeader h3 {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
+  color: #1a1a1a;
 }
 
 .cardHeader--clickable {
@@ -244,13 +250,13 @@
 }
 
 .calSelected {
-  background: #0a808a;
+  background: #ef5350 !important;
   color: white;
   font-weight: 700;
 }
 
 .calSelected:hover {
-  background: #086f78 !important;
+  background: #e53935 !important;
 }
 
 .calDate__dots {
@@ -267,6 +273,17 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+.calRed {
+  background: #0a808a !important;
+  color: white;
+  font-weight: 700;
+}
+
+.calRed:hover {
+  background: #086f78 !important;
+}
+
 
 .calDate__dot--livesessions { background: #FDD835; }
 .calDate__dot--assignments  { background: #4CAF50; }
@@ -330,6 +347,20 @@
   align-items: center;
   margin-bottom: 3px;
 }
+
+.scheduleBadge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.scheduleBadge--livesessions { background: #0a808a; }
+.scheduleBadge--assignments  { background: #4CAF50; }
+.scheduleBadge--quiz         { background: #9C27B0; }
+
 
 .scheduleDayBadge {
   font-size: 9px;
