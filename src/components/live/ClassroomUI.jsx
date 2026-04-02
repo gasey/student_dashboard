@@ -17,10 +17,14 @@ export default function ClassroomUI({ role }) {
     { source: Track.Source.ScreenShare, withPlaceholder: false },
   ]);
 
-  
-  const teacherTrack = tracks.find(
-    (t) => t.participant.permissions?.canPublish
-  );
+  // Students can't publish — all video tracks in the room are the teacher's
+  const screenTrack = tracks.find((t) => t.source === Track.Source.ScreenShare);
+  const cameraTrack = tracks.find((t) => t.source === Track.Source.Camera);
+
+  // Prioritize screen share as main view; fall back to camera
+  const mainTrack = screenTrack || cameraTrack;
+  // Show camera as PiP only when screen sharing is active
+  const pipTrack = screenTrack ? cameraTrack : null;
 
   // ✅ FULLSCREEN TOGGLE
   const toggleFullscreen = () => {
@@ -42,7 +46,7 @@ export default function ClassroomUI({ role }) {
       document.removeEventListener("fullscreenchange", handleChange);
   }, []);
 
-  if (!teacherTrack) {
+  if (!mainTrack) {
     return (
       <div className="waiting-screen">
         <div className="waiting-card">
@@ -79,7 +83,14 @@ export default function ClassroomUI({ role }) {
           ⇄
         </button>
 
-        <VideoTrack trackRef={teacherTrack} />
+        <VideoTrack trackRef={mainTrack} />
+
+        {/* Picture-in-picture camera when screen sharing */}
+        {pipTrack && (
+          <div className="pip-camera">
+            <VideoTrack trackRef={pipTrack} />
+          </div>
+        )}
       </div>
 
       {/* SIDEBAR */}
@@ -91,8 +102,8 @@ export default function ClassroomUI({ role }) {
       )}
 
 
-      <ControlBar role={role} />
-      {role === "STUDENT" && <RaiseHandButton />}
+      <ControlBar />
+      <RaiseHandButton />
     </div>
   );
 }
